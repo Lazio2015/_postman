@@ -1,0 +1,29 @@
+.input-group-btn .dropdown-toggle:not(:last-of-type) {
+    border-radius: 0 !important;
+}
+.type {
+    width: 45px;
+    float: left;
+}
+
+.type-get {
+    color:green;
+}
+.type-post {
+    color:orange;
+}
+.type-delete {
+    color:red;
+}
+.history-list {
+    padding:3px;
+}
+.history-block {
+    border: 2px solid red;
+    border-radius: 10px;
+    padding: 10px;
+}
+.title {
+    text-align: center;
+    font-size: 20px;
+}

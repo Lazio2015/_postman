@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Postman</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Postman</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#/">Home</a></li>
+                <li><a href="#/rest">REST</a></li>
+                <li><a href="#/contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" ng-controller="HistoryCtrl">
+            <span class="title">{{title}}</span>
+                <div class="history-block">
+                    <ul class="list-unstyled">
+                        <li class="history-list" ng-repeat="h in history" >
+                            <span class="type type-{{ h.type | lowercase}}">{{ h.type }}</span>
+                            <span>{{ h.url }}</span>
+                            <span class="pull-right" data-id="{{ h.id }}" delete><i class="glyphicon glyphicon-remove"></i></span>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+        <div class="col-md-9">
+            <ng-view></ng-view>
+        </div>
+    </div>
+</div>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controllers.js"></script>
+
+</body>
+</html>
