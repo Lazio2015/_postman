@@ -1,21 +1,7 @@
-postman.controller('RestCtrl', ['$scope','$http', 'HistoryService', 'SendQuery', '$rootScope', function($scope, $http, HistoryService, SendQuery, $rootScope){
-        $scope.title = 'Rest API';
+postman.controller('RestCtrl', ['$scope','$http', 'HistoryService', '$rootScope', function($scope, $http, HistoryService, $rootScope) {
+    $scope.title = 'Rest API';
 
-        $scope.url = 'http://localhost:3000/history';
-        $scope.query ={type:'GET', url: ''};
-        $rootScope.$on('abc', function(e, data) {
-            $scope.response = data;
-        });
-        //$scope.get = function() {
-        //    SendQuery.send($scope.query).success(function(data) {
-        //        $scope.data = data;
-        //    });
-        //console.log($scope.query);
-        //    $rootScope.$broadcast('query:add', $scope.query);
-        //
-        //
-        //};    }])
-
+    }])
     .controller('ContactCrtl',['$scope', function($scope){
         $scope.title = 'Contact page';
     }])
@@ -26,17 +12,13 @@ postman.controller('RestCtrl', ['$scope','$http', 'HistoryService', 'SendQuery',
             $scope.history = cb;
         });
 
-        $scope.$on('query:add', function(event, query) {
-            $scope.history.push(query);
-            console.log(query.type);
-            console.log(query.url);
+        $rootScope.$on('history:add', function(event, obj) {
+            $rootScope.history.push(obj);
         });
 
-        $scope.delete = function(id){
-            HistoryService.delete(id, function(data){
-                $scope.history = data;
-            });
-        };
+        $scope.$on('history-delete', function(event, data) {
+            $scope.history = data;
+        });
 
     }]);
 

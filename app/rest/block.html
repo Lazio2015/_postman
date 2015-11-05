@@ -1,6 +1,13 @@
-<input ng-model='query.url' class='form-control' id='basic-url' aria-describedby='basic-addon3'>
-    <div class='form-group'><select ng-model='query.type' class='form-control' id='sel1'>
-        "<option>GET</option>
-        <option>POST</option></select>
-    </div>
-<button type='button' ng-click='get()' name="send">get</button>
+<div class="form-group pull-left" style="width: 100%">
+    <span class="input-group-addon form-control" style="width:15%; line-height: 1.5; float:left">http://</span>
+    <input id="url" class='form-control' style="float:left; width: 75%;">
+        <select class='form-control' id='type' style="width:10%">
+            <option>GET</option>
+            <option>POST</option>
+        </select>
+</div>
+<button type='button' id="send">SEND</button>
+
+<hr>
+<h1> Response </h1>
+{{response.content}}

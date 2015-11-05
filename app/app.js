@@ -1,3 +1,5 @@
+'use strict';
+
 var postman = angular.module('App', ['ngRoute', 'ngResource']).config(function($routeProvider){
         $routeProvider.when('/contact', {
             templateUrl: 'app/contact/index.html',
@@ -10,87 +12,66 @@ var postman = angular.module('App', ['ngRoute', 'ngResource']).config(function($
         $routeProvider.otherwise({redirectTo: '/'});
     })
 
-    .directive('delete', function(){
-        return function($scope, element, attrs){
-            element.on('click', function(){
-                $scope.delete(attrs.id);
-            });
-        };
+    .constant('SystemConfig', {
+        baseUrl: 'http://localhost:3000/server',
+        historyUrl: 'http://localhost:3000/history',
+        flag: true
     })
 
-    .directive('textInput',['$http', '$rootScope', function($http, $rootScope){
+    .directive('delete',['HistoryService', function(HistoryService){
+        return function($scope, element, attrs){
+            element.on('click', function(){
+                HistoryService.delete(attrs.id);
+            });
+        };
+    }])
+
+    .directive('textInput',['$http', '$rootScope', 'SystemConfig', function($http, $rootScope, SystemConfig){
         return {
             restrict: 'EA',
             templateUrl: "app/rest/block.html",
-            scope: {},
-            controller: function() {
+            scope: {
 
             },
+            controller: function ($scope, $rootScope) {
+                $scope.$on('query:response', function (e, res, history) {
+                    $scope.response = res;
+                    history.id = res.id;
+                    $rootScope.$broadcast('history:add', history);
+                })
+            },
             link: function(scope, element, attrs) {
-                console.log(element);
-                console.log(element[0].attr);
-                element.on('click', function() {
-                    $http({
-                        method: 'GET',
-                        url: 'http://localhost/server/getlist'
-                    }).success(function(data) {
-                        $rootScope.$broadcast('abc', data);
+                var button = jQuery(element).find('#send');
 
-                        //@todo1. call History:add
+                button.on('click', function() {
+                    var query = {url: '', type: 'GET'};
+                    query.url = jQuery(element).find('#url').val();
+                    query.type = jQuery(element).find('#type').val();
+
+                    $http.post(SystemConfig.baseUrl, query).success(function(res) {
+                        $rootScope.$broadcast('query:response', res, query);
                     });
+
                 })
             }
         }
     }])
 
-    .factory('SendQuery', ['$http', function($http) {
+    .factory('HistoryService',['SystemConfig', '$http', '$rootScope', function(SystemConfig, $http, $rootScope){
         return {
-            send: function(query) {
-                var request  = $http({
-                    method: query.type,
-                    url: query.url
-                });
-                return request;
-            }
-        }
-    }
-    ])
-
-    .factory('HistoryService',['$http', '$rootScope', function($http, $rootScope){
-        return {
-            //getlist: function(cb){
-            //    $http.get('http://localhost:3000/history').success(function(data, status) {
-            //        //var res = data;
-            //        cb(data);
-            //    }).error(function(data){
-            //        //
-            //        cb([]);
-            //    });
-            //},
             getlist: function(){
-                return $http.get('http://localhost:3000/history');
+                return $http.get(SystemConfig.historyUrl);
             },
 
-            delete: function(id, cb){
-                $http.delete('http://localhost:3000/history/'+id).success(function(data, status) {
-                    //var res = data;
-                    cb(data);
-                }).error(function(data){
-                    //
-                    cb([]);
+            delete: function(id){
+                $http.delete(SystemConfig.historyUrl+'/'+id).success(function(data, status) {
+                    $rootScope.$broadcast('history-delete', data);
                 });
             },
 
             add: function() {
-                $http.post('http://localhost:3000/history').success(function(data, status) {
+                $http.post(SystemConfig.historyUrl).success(function(data, status) {
                 })
             }
         }
     }]);
-
-//{
-//
-//}, {
-//    get: { method: 'GET', params: { url: '@url'}, isArray: false}
-//});
-//http://localhost:3000/history
