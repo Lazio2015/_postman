@@ -1,13 +1,11 @@
 postman.controller('RestCtrl', ['$scope','$http', 'HistoryService', 'SendQuery', '$rootScope', function($scope, $http, HistoryService, SendQuery, $rootScope){
         $scope.title = 'Rest API';
 
-
-        //HistoryService.findAllHistory(function(data){
-        //    $scope.history = data;
-        //    console.log(data);
-        //});
         $scope.url = 'http://localhost:3000/history';
         $scope.query ={type:'GET', url: ''};
+        $rootScope.$on('abc', function(e, data) {
+            $scope.response = data;
+        });
         //$scope.get = function() {
         //    SendQuery.send($scope.query).success(function(data) {
         //        $scope.data = data;
@@ -16,14 +14,7 @@ postman.controller('RestCtrl', ['$scope','$http', 'HistoryService', 'SendQuery',
         //    $rootScope.$broadcast('query:add', $scope.query);
         //
         //
-        //};
-        $scope.get = function() {
-            $rootScope.$on('abc', function(e, data) {
-                console.log('fdgdf');
-                $scope.data = data;
-            });
-        }
-    }])
+        //};    }])
 
     .controller('ContactCrtl',['$scope', function($scope){
         $scope.title = 'Contact page';

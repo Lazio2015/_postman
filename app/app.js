@@ -20,19 +20,25 @@ var postman = angular.module('App', ['ngRoute', 'ngResource']).config(function($
 
     .directive('textInput',['$http', '$rootScope', function($http, $rootScope){
         return {
+            restrict: 'EA',
             templateUrl: "app/rest/block.html",
             scope: {},
-        //    controller: 'RestCtrl',
+            controller: function() {
+
+            },
             link: function(scope, element, attrs) {
-                element.bind('myEvent', function(){
+                console.log(element);
+                console.log(element[0].attr);
+                element.on('click', function() {
                     $http({
-                        method: scope.query.type,
-                        url: scope.query.url
+                        method: 'GET',
+                        url: 'http://localhost/server/getlist'
                     }).success(function(data) {
-                        data.all = data;
+                        $rootScope.$broadcast('abc', data);
+
+                        //@todo1. call History:add
                     });
-                    $rootScope.$broadcast('abc', data.all);
-                });
+                })
             }
         }
     }])

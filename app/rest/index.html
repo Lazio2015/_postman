@@ -1,12 +1,34 @@
-<div>
-    <div class="input-group">
-        <span class="input-group-addon" id="basic-addon3">http://</span>
-        <text-input></text-input>
+<div class="col-md-3" ng-controller="HistoryCtrl">
+    <span class="title">{{title}}</span>
+    <div class="history-block">
+        <ul class="list-unstyled">
+            <li class="history-list" ng-repeat="h in history" >
+                <span class="type type-{{ h.type | lowercase}}">{{ h.type }}</span>
+                <span>{{ h.url }}</span>
+                <span class="pull-right" data-id="{{ h.id }}" delete><i class="glyphicon glyphicon-remove"></i></span>
+            </li>
+        </ul>
     </div>
 </div>
+<div class="col-md-9">
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon3">http://</span>
+        <text-input value="send">
 
-<hr>
-<h1>Response</h1>
+        </text-input>
+    </div>
+    <hr>
+    <h1>Response</h1>
+
+    <table>
+        <tr ng-repeat="row in response">
+            <td>{{row.name}}</td>
+            <td>{{row.age}}</td>
+        </tr>
+    </table>
+
+</div>
+
 
 
 
