@@ -2,7 +2,7 @@
     border-radius: 0 !important;
 }
 .type {
-    width: 45px;
+    width: 60px;
     float: left;
 }
 
@@ -11,6 +11,9 @@
 }
 .type-post {
     color:orange;
+}
+.type-put {
+    color:blue;
 }
 .type-delete {
     color:red;

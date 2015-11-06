@@ -1,0 +1,15 @@
+<span class="title">{{title}}</span>
+<div class="history-block">
+    <div class="history-list" id="history-{{ h.id }}" ng-repeat="h in history" hist-serv >
+            <span class="type type-{{ h.type | lowercase}}">{{ h.type }}</span>
+            <span class="url">{{ h.url }}</span>
+            <span class="pull-right" data-id="{{ h.id }}" delete><i class="glyphicon glyphicon-remove"></i></span>
+    </div>
+    <!--<ul class="list-unstyled">-->
+        <!--<li class="history-list" ng-repeat="h in history" >-->
+            <!--<span class="type type-{{ h.type | lowercase}}">{{ h.type }}</span>-->
+            <!--<span>{{ h.url }}</span>-->
+            <!--<span class="pull-right" data-id="{{ h.id }}" delete><i class="glyphicon glyphicon-remove"></i></span>-->
+        <!--</li>-->
+    <!--</ul>-->
+</div>

@@ -26,20 +26,30 @@ var postman = angular.module('App', ['ngRoute', 'ngResource']).config(function($
         };
     }])
 
-    .directive('textInput',['$http', '$rootScope', 'SystemConfig', function($http, $rootScope, SystemConfig){
+
+    .directive('sendDataRest',['$http', '$rootScope', 'SystemConfig', function($http, $rootScope, SystemConfig){
         return {
             restrict: 'EA',
-            templateUrl: "app/rest/block.html",
+            templateUrl: 'app/rest/sendData/sendData.html',
             scope: {
 
             },
-            controller: function ($scope, $rootScope) {
-                $scope.$on('query:response', function (e, res, history) {
-                    $scope.response = res;
-                    history.id = res.id;
-                    $rootScope.$broadcast('history:add', history);
-                })
+            controller: function($scope) {
+                $scope.title = 'Rest: SendData page';
+
+                //$rootScope.$on('main:response', function (e, res, history) {
+                //    $scope.response = res;
+                //    history.id = res.id;
+                //    $scope.$broadcast('history:add', history);
+                //});
+
+                $scope.$on('addUrl', function(e, query) {
+                    console.log('2');
+                    query.url = jQuery(element).find('#url').val(query.url);
+                    query.type = jQuery(element).find('#type').val(query.type);
+                });
             },
+        //    controller: 'SendDataCtrl',
             link: function(scope, element, attrs) {
                 var button = jQuery(element).find('#send');
 
@@ -48,13 +58,32 @@ var postman = angular.module('App', ['ngRoute', 'ngResource']).config(function($
                     query.url = jQuery(element).find('#url').val();
                     query.type = jQuery(element).find('#type').val();
 
-                    $http.post(SystemConfig.baseUrl, query).success(function(res) {
-                        $rootScope.$broadcast('query:response', res, query);
+                    $http.post(SystemConfig.baseUrl, query).success(function(data) {
+                        scope.$broadcast('send:response', data);
+                        scope.$broadcast('history:add', history);
                     });
 
                 })
             }
         }
+    }])
+
+    .directive('historyRest', ['$http', '$rootScope', function($http, $rootScope) {
+        return {
+            templateUrl: 'app/rest/history/history.html',
+            controller: 'HistoryCtrl',
+            link: function(scope, element, attrs) {
+                    //    click: function(scope, element, attrs){
+                    element.on('click', function () {
+                        var query = {};
+                        query.type = jQuery(element).find('.type');
+                        query.url = jQuery(element).find('.url');
+
+                        scope.$broadcast('addUrl', {url:'s', type:'df'});
+
+                    });
+        }
+    }
     }])
 
     .factory('HistoryService',['SystemConfig', '$http', '$rootScope', function(SystemConfig, $http, $rootScope){
