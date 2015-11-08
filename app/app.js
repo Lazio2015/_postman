@@ -1,7 +1,7 @@
 'use strict';
 
 var postman = angular.module('App', ['ngRoute', 'ngResource'])
-    .config(['$routeProvider', function($routeProvider){
+    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider){
         //$locationProvider.html5Mode({
         //    enabled: true,
         //    requireBase: false
@@ -15,7 +15,26 @@ var postman = angular.module('App', ['ngRoute', 'ngResource'])
             controller: 'RestCtrl'
         });
         $routeProvider.otherwise({redirectTo: '/'});
+
+        $httpProvider.interceptors.push(function ($q) {
+            return {
+                'response': function (response) {
+                    //up to 300
+                    if (response.status == 200) {
+                        //console.log('OK');
+                    }
+                    return response;
+                },
+                'responseError': function (rejection) {
+                    if(rejection.status === 401) {
+                        location.reload();
+                    }
+                    return $q.reject(rejection);
+                }
+            };
+        });
     }])
+
 
     .constant('SystemConfig', {
         baseUrl: 'http://localhost:3000/server',
