@@ -1,15 +1,12 @@
-<span class="title">{{title}}</span>
 <div class="history-block">
-    <div class="history-list" id="history-{{ h.id }}" ng-repeat="h in history" hist-serv >
+    <div class="form-group has-feedback">
+        <label class="control-label">Username</label>
+        <input type="text" class="form-control" placeholder="Search..." ng-model="search"/>
+        <i class="glyphicon glyphicon-search form-control-feedback"></i>
+    </div>
+    <div ng-click="invokeClick(h)" class="history-list" ng-repeat="h in history | filter:search">
             <span class="type type-{{ h.type | lowercase}}">{{ h.type }}</span>
             <span class="url">{{ h.url }}</span>
-            <span class="pull-right" data-id="{{ h.id }}" delete><i class="glyphicon glyphicon-remove"></i></span>
+            <span class="pull-right" ng-click="delete(h.id)"><i class="glyphicon glyphicon-remove"></i></span>
     </div>
-    <!--<ul class="list-unstyled">-->
-        <!--<li class="history-list" ng-repeat="h in history" >-->
-            <!--<span class="type type-{{ h.type | lowercase}}">{{ h.type }}</span>-->
-            <!--<span>{{ h.url }}</span>-->
-            <!--<span class="pull-right" data-id="{{ h.id }}" delete><i class="glyphicon glyphicon-remove"></i></span>-->
-        <!--</li>-->
-    <!--</ul>-->
 </div>
