@@ -1,21 +1,11 @@
 'use strict';
 
-var postman = angular.module('App', ['ngRoute', 'ngResource'])
-    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider){
-        //$locationProvider.html5Mode({
-        //    enabled: true,
-        //    requireBase: false
-        //});
-        $routeProvider.when('/contact', {
-            templateUrl: 'app/contact/index.html',
-            controller: 'ContactCrtl'
-        });
-        $routeProvider.when('/rest', {
-            templateUrl: 'app/rest/index.html',
-            controller: 'RestCtrl'
-        });
-        $routeProvider.otherwise({redirectTo: '/'});
-
+var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap'])
+    .config(['$locationProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider', function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider){
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        }).hashPrefix('!');
         $httpProvider.interceptors.push(function ($q) {
             return {
                 'response': function (response) {
@@ -33,8 +23,56 @@ var postman = angular.module('App', ['ngRoute', 'ngResource'])
                 }
             };
         });
-    }])
 
+        $stateProvider
+            .state('rest', {
+            //    abstract: true,
+                url: "/rest",
+                templateUrl: 'app/rest/views/body/index.html',
+                controller: 'RestCtrl'
+                //views: {
+                //    'content': {
+                //        templateUrl: 'rest/views/body/index.html'
+                //    },
+                //    'history@rest': {
+                //        template: '<history-rest></history-rest>',
+                //        controller: 'HistoryCtrl'
+                //    },
+                //    'send@rest': {
+                //        template: '<send-data-rest></send-data-rest>',
+                //        controller: 'SendDataCtrl'
+                //    }
+                //    }
+            })
+            .state('contact', {
+                url: "/contact",
+                templateUrl: 'app/contact/index.html',
+                controller: 'ContactCrtl'
+            })
+            .state('home', {
+                url: "/home",
+                templateUrl: 'app/home.html'
+            });
+
+        $urlRouterProvider.otherwise('/home');
+
+        //$stateProvider.state('rest', {
+        //    abstract: true,
+        //    views: {
+        //        'body': {
+        //            templateUrl: '/rest/views/body/index.html'
+        //        },
+        //        'history@rest': {
+        //            template: '<history-rest></history-rest>'
+        //        },
+        //        'data@rest': {
+        //            template: '<send-data-rest></send-data-rest>'
+        //        }
+        //    }
+        //});
+
+
+    }])
 
     .constant('SystemConfig', {
         baseUrl: 'http://localhost:3000/server',
@@ -45,21 +83,11 @@ var postman = angular.module('App', ['ngRoute', 'ngResource'])
     .directive('sendDataRest',['$http', '$rootScope', 'SystemConfig', function($http, $rootScope, SystemConfig){
         return {
             restrict: 'EA',
-            templateUrl: 'app/rest/sendData/sendData.html',
+            templateUrl: 'app/rest/views/sendData/sendData.html',
             scope: {
-
+                data: '='
             },
-            controller: function($scope) {
-                $scope.title = 'Rest: SendData page';
-                $scope.data = {
-                    type: 'GET',
-                    url: ''
-                };
-
-                $scope.$on('sendData: invoke', function(e, query) {
-                    $scope.data = query;
-                });
-            },
+            controller: 'SendDataCtrl',
             link: function(scope, element, attrs) {
                 var button = jQuery(element).find('#send');
 
@@ -72,7 +100,9 @@ var postman = angular.module('App', ['ngRoute', 'ngResource'])
                         $rootScope.$broadcast('history: add', data.history);
 
                         button.prop('disabled', false);
-                    });
+                    }).error(function(data) {
+                            console.log(data);
+                        });
                 })
             }
         }
@@ -80,9 +110,10 @@ var postman = angular.module('App', ['ngRoute', 'ngResource'])
 
     .directive('historyRest', ['$http', '$rootScope', 'SystemConfig', function($http, $rootScope, SystemConfig) {
         return {
-            templateUrl: 'app/rest/history/history.html',
+            templateUrl: 'app/rest/views/history/history.html',
             controller: 'HistoryCtrl',
-            link: function(scope, element, attrs) {
+          //  scope: {},
+            link: function(scope, element, attrs,$rootScope) {
 
                 $http.get(SystemConfig.historyUrl).success(function(data) {
                     scope.history = data;
@@ -97,6 +128,7 @@ var postman = angular.module('App', ['ngRoute', 'ngResource'])
                 scope.invokeClick = function(data) {
                     scope.$broadcast('sendData: invoke', data);
                 }
+
         }
     }
     }]);
