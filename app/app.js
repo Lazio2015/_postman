@@ -131,4 +131,16 @@ var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap'])
 
         }
     }
-    }]);
+    }])
+
+    .directive("itemDirective", function() {
+        return {
+            restrict: "A",
+            scope: false,
+            replace: false,
+            transclude: false,
+            template: "id: {{ item.id }}",
+            link: function($scope, $element, $attributes) {
+            }
+        };
+    });

@@ -15,9 +15,9 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="tab">
                     <h1>Tab {{tabs[selectedTab].id}}</h1>
-                    <h3>Content:- {{tabs[selectedTab].content}}</h3>
-                    <div class="input-group" style="width: 100%;">
-                        <send-data-rest></send-data-rest>
+                    <!--<h3>Content:- {{tabs[selectedTab].content}}</h3>-->
+                    <div ng-include="tabs[selectedTab].content" class="input-group" style="width: 100%;">
+
                     </div>
 
                     <hr>
@@ -31,23 +31,6 @@
 </div>
 
 
-<!--<uib-tabset>-->
-    <!--<uib-tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active" disable="tab.disabled">-->
-        <!-- -->
-    <!--</uib-tab>-->
-<!--</uib-tabset>-->
-
-<!--<content>-->
-    <!--<div class="col-md-3">-->
-        <!--<ui-view name="history"></ui-view>-->
-    <!--</div>-->
-    <!--<div class="col-md-9">-->
-        <!--<div class="input-group" style="width: 100%;">-->
-            <!--<ui-view name="send"></ui-view>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</content>-->
-
-<!--<hr>-->
-<!--<h1>Response</h1>-->
-<!--{{response}}-->
+<div ng-repeat="item in directiveItems">
+    <div item-directive="item"></div>
+</div>
