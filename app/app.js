@@ -1,6 +1,6 @@
 'use strict';
 
-var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap'])
+var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap', 'ngStorage'])
     .config(['$locationProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider', function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider){
         $locationProvider.html5Mode({
             enabled: true,
@@ -55,23 +55,6 @@ var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap'])
             });
 
         $urlRouterProvider.otherwise('/home');
-
-        //$stateProvider.state('rest', {
-        //    abstract: true,
-        //    views: {
-        //        'body': {
-        //            templateUrl: '/rest/views/body/index.html'
-        //        },
-        //        'history@rest': {
-        //            template: '<history-rest></history-rest>'
-        //        },
-        //        'data@rest': {
-        //            template: '<send-data-rest></send-data-rest>'
-        //        }
-        //    }
-        //});
-
-
     }])
 
     .constant('SystemConfig', {

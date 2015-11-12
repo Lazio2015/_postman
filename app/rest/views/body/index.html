@@ -15,6 +15,7 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="tab">
                     <h1>Tab {{tabs[selectedTab].id}}</h1>
+                    {{con}}
                     <!--<h3>Content:- {{tabs[selectedTab].content}}</h3>-->
                     <div ng-include="tabs[selectedTab].content" class="input-group" style="width: 100%;">
 
@@ -28,9 +29,4 @@
         <!--</div>-->
     </uib-tabset>
 
-</div>
-
-
-<div ng-repeat="item in directiveItems">
-    <div item-directive="item"></div>
 </div>
