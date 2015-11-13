@@ -116,14 +116,6 @@ var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap', 'ng
     }
     }])
 
-    .directive("itemDirective", function() {
-        return {
-            restrict: "A",
-            scope: false,
-            replace: false,
-            transclude: false,
-            template: "id: {{ item.id }}",
-            link: function($scope, $element, $attributes) {
-            }
-        };
+    .run(function($templateCache) {
+        $templateCache.put('tabDefault', '<send-data-rest></send-data-rest>');
     });

@@ -9,17 +9,24 @@ postman
         $scope.tabs = [{
             id:1,
             name: 'Default tab',
-            content: "app/rest/views/directive.html",
+            content: "tabDefault",
             active: true
         }]
 
         $scope.counter = 1;
         /** Function to add a new tab **/
         $scope.addTab = function(){
-            $localStorage.local = $scope.counter;
             $scope.counter++;
-            $scope.tabs.push({id:$scope.counter, name: 'New tab '+$scope.counter, content: "app/rest/views/directive1.html"});
+            var tab = {
+                id: $scope.counter,
+                name: 'New tab '+$scope.counter,
+                content: 'tab'+($scope.counter)
+            };
+            $templateCache.put(tab.content, '<send-data-rest></send-data-rest>');
+            $scope.tabs.push({id:tab.id, name: tab.name, content: tab.content});
             $scope.selectedTab = $scope.tabs.length - 1; //set the newly added tab active.
+            //console.log($scope.tabs);
+            //console.log($templateCache.get(tab.content));
         }
 
         /** Function to delete a tab **/
@@ -32,7 +39,6 @@ postman
         /** Function to set selectedTab **/
         $scope.selectTab = function(index){
             $scope.selectedTab = index;
-            $scope.con = $localStorage.local;
         }
     }])
 
