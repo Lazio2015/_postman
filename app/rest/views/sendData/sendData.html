@@ -1,6 +1,8 @@
 <div class="form-group pull-left" style="width: 100%">
     <span class="input-group-addon form-control" style="width:15%; line-height: 1.5; float:left">http://</span>
     <input id="url" class='form-control' style="float:left; width: 61%;" ng-model="data.url"/>
-        <select class='form-control' id='type' style="width:14%" ng-model="data.type" ng-options="value for value in types"></select>
-    <button type="button" class="btn btn-primary" id="send" ng-disabled="!data.url">SEND</button>
+        <select class='form-control' id='type' style="width:14%" ng-model="data.type" ng-options="value for value in types">
+
+        </select>
+    <button type="button" class="btn btn-primary" ng-disabled="!data.url" ng-click="sending()">SEND</button>
 </div>

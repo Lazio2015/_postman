@@ -68,25 +68,25 @@ var postman = angular.module('App', ['ngRoute', 'ui.router', 'ui.bootstrap', 'ng
             restrict: 'EA',
             templateUrl: 'app/rest/views/sendData/sendData.html',
             scope: {
-                data: '='
+                data: '=',
+                onResponse: '&',
+                onHistoryAdd: '&'
             },
             controller: 'SendDataCtrl',
             link: function(scope, element, attrs) {
-                var button = jQuery(element).find('#send');
 
-                // send data by click
-                button.on('click', function() {
-                    button.prop('disabled', true);
-
+                scope.sending = function() {
                     $http.post(SystemConfig.baseUrl, scope.data).success(function(data) {
-                        $rootScope.$broadcast('sendData: response', data.content);
-                        $rootScope.$broadcast('history: add', data.history);
+                        scope.onResponse(data.content);
+                        scope.onHistoryAdd(data.history);
 
-                        button.prop('disabled', false);
+                    //    $rootScope.$broadcast('sendData: response', data.content);
+                    //    $rootScope.$broadcast('history: add', data.history);
+
                     }).error(function(data) {
-                            console.log(data);
-                        });
-                })
+                        console.log(data);
+                    });
+                }
             }
         }
     }])
