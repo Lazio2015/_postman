@@ -2,9 +2,12 @@ postman
     .controller('RestCtrl', ['$scope', '$templateCache', '$localStorage', function($scope, $templateCache, $localStorage) {
         $scope.title = 'Rest API';
 
-        $scope.$on('sendData: response', function(e, data) {
+        //$scope.$on('sendData: response', function(e, data) {
+        //    $scope.response = data;
+        //});
+        this.onResponse = function(data){
             $scope.response = data;
-        });
+        }
 
         $scope.tabs = [{
             id:1,
@@ -22,7 +25,7 @@ postman
                 name: 'New tab '+$scope.counter,
                 content: 'tab'+($scope.counter)
             };
-            $templateCache.put(tab.content, '<send-data-rest></send-data-rest>');
+            $templateCache.put(tab.content, '<send-data-rest on-response="onResponse()" on-history-add="onHistoryAdd()"></send-data-rest>');
             $scope.tabs.push({id:tab.id, name: tab.name, content: tab.content});
             $scope.selectedTab = $scope.tabs.length - 1; //set the newly added tab active.
             //console.log($scope.tabs);
@@ -50,9 +53,13 @@ postman
         $scope.title = 'Rest: History page';
         $scope.sortField = 'id';
 
-        $scope.$on('history: add', function(event, data) {
+        //$scope.$on('history: add', function(event, data) {
+        //    $scope.history.push(data);
+        //});
+
+        this.onHistoryAdd = function(data) {
             $scope.history.push(data);
-        });
+        }
 
         $scope.$on('history: delete', function(event, data) {
             $scope.history = data;
